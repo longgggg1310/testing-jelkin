@@ -10,7 +10,7 @@ pipeline {
 
     environment{
         registry = 'longvudang123/my-app'
-        registryCredential = 'dockerhub-credentials'      
+        registryCredential = 'dockerhub'      
     }
 
     stages {
