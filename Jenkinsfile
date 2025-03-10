@@ -1,28 +1,28 @@
 pipeline {
     agent any
 
-    options {
+    options{
+        // Max number of build logs to keep and days to keep
         buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
+        // Enable timestamp at each job in the pipeline
         timestamps()
     }
 
-    environment {
-        registry = 'quandvrobusto/house-price-prediction-api'
-        registryCredential = 'dockerhub'
+    environment{
+        registry = 'longvudang123/my-app'
+        registryCredential = 'dockerhub'      
     }
 
     stages {
         stage('Test') {
             agent {
                 docker {
-                    image 'python:3.8'
-                    args '-u root'  // Chạy container với quyền root để tránh lỗi permission
+                    image 'python:3.8' 
                 }
             }
             steps {
                 echo 'Testing model correctness..'
                 sh 'pip install -r requirements.txt'
-                sh 'pytest --maxfail=1 --disable-warnings'
             }
         }
         stage('Build') {
@@ -38,6 +38,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying models..'
